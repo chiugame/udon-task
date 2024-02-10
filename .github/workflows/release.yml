@@ -61,7 +61,16 @@ jobs:
       # Build a list of .meta files for future use
       - name: Track Package Meta Files
         run: find "${{ env.packagePath }}/" -name \*.meta >> metaList
-      
+
+      # Cleanup any existing temporary directory to prevent 'EEXIST' error.
+      - name: Cleanup existing temporary directories
+        run: |
+          TEMP_DIR="tempFolderECMhBO/archtemp"
+          if [ -d "$TEMP_DIR" ]; then
+            echo "Removing existing temporary directory $TEMP_DIR"
+            rm -rf "$TEMP_DIR"
+          fi
+
       # Make a UnityPackage version of the Package for release
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
