@@ -12,6 +12,6 @@
     "url": "https://github.com/chiugame"
   },
   "vpmDependencies": {
-    com.vrchat.base" : "^3.5.x"
+    "com.vrchat.base" : "^3.5.x"
   }
 }
