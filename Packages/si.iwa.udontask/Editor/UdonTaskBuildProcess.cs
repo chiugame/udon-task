@@ -1,4 +1,5 @@
-using UnityEditor;
+using Iwashi.UdonTask;
+using UdonSharpEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -10,10 +11,15 @@ public class UdonTaskBuildProcess : IProcessSceneWithReport
 
 	public void OnProcessScene(Scene scene, BuildReport report)
 	{
-		var prefabPath = AssetDatabase.GUIDToAssetPath("2d03bee62a1b5e84881d9842acaec43f");
-		var udonAsyncPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-		var obj = Object.Instantiate(udonAsyncPrefab);
-		obj.name = "0C74D46CC893548DFFAF93B6D0C59BCDC2909B0F2438E978F6B5ED10E05F290B";
+		var obj = new GameObject("0C74D46CC893548DFFAF93B6D0C59BCDC2909B0F2438E978F6B5ED10E05F290B");
+		var prefabObj = new GameObject("Prefab");
+		prefabObj.SetActive(false);
+		prefabObj.transform.SetParent(obj.transform);
+		UdonSharpUndo.AddComponent<UdonAsync>(prefabObj);
+		var audioSource = prefabObj.AddComponent<AudioSource>();
+		audioSource.playOnAwake = true;
+		audioSource.loop = true;
+		audioSource.volume = 0;
 		obj.hideFlags = HideFlags.HideInHierarchy;
 	}
 }
