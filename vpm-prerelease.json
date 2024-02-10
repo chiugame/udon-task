@@ -1,7 +1,7 @@
 {
-    "name":"Iwashi Packages",
+    "name":"Iwashi Packages (PreRelease)",
     "id":"si.iwa.packages",
-    "url":"https://vpm.iwa.si/vpm.json",
+    "url":"https://vpm.iwa.si/vpm-prerelease.json",
     "author":{
         "email":"chiugameproject@gmail.com",
         "name":"chiugame",
