@@ -1,13 +1,13 @@
 {
-    "name": "Iwashi.UdonTask.Editor",
+    "name": "si.iwa.udontask",
     "rootNamespace": "",
     "references": [
-        "UdonSharp.Editor",
-        "VRC.Udon.Editor"
+        "VRC.Udon",
+        "VRC.SDK3",
+        "VRC.SDKBase",
+        "UdonSharp.Runtime"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
