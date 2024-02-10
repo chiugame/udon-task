@@ -15,13 +15,5 @@
     "bannerUrl":"banner.png",
     "githubRepos":[
         "chiugame/udon-task"
-    ],
-    "packages":[
-        {
-            "name":"si.iwa.udontask",
-            "releases":[
-                "https://github.com/chiugame/udon-task/releases/download/v1.0.2/si.iwa.udontask-1.0.2.zip"
-            ]
-        }
     ]
 }
