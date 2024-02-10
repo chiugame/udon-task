@@ -2,7 +2,7 @@ using UdonSharp;
 using UnityEngine;
 using VRC.Udon;
 
-namespace Iwashi.UdonAsync
+namespace Iwashi.UdonTask
 {
     [AddComponentMenu("")]
     public class UdonTask : UdonSharpBehaviour

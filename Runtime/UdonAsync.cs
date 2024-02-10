@@ -2,7 +2,7 @@
 using UdonSharp;
 using VRC.Udon;
 
-namespace Iwashi.UdonAsync
+namespace Iwashi.UdonTask
 {
 	public enum ResultType
 	{

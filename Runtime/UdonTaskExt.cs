@@ -1,4 +1,4 @@
-namespace Iwashi.UdonAsync
+namespace Iwashi.UdonTask
 {
     public static class UdonTaskExt
     {
