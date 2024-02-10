@@ -1,0 +1,19 @@
+{
+    "name": "Iwashi.UdonTask.Editor",
+    "rootNamespace": "",
+    "references": [
+        "UdonSharp.Editor",
+        "VRC.Udon.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
