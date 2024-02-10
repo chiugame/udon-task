@@ -4,7 +4,7 @@
     "url":"https://vpm.iwa.si/vpm.json",
     "author":{
         "email":"chiugameproject@gmail.com",
-        "name":"ikuko",
+        "name":"chiugame",
         "url":"https://iwashi-184.com"
     },
     "description":"This package enables the execution of Udon from a separate thread.",
