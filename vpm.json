@@ -1,0 +1,28 @@
+{
+    "name":"UdonTask",
+    "id":"si.iwa.udontask",
+    "url":"https://vpm.iwa.si/vpm.json",
+    "author":{
+        "email":"chiugameproject@gmail.com",
+        "name":"ikuko",
+        "url":"https://iwashi-184.com"
+    },
+    "description":"This package enables the execution of Udon from a separate thread.",
+    "infoLink":{
+        "url":"https://github.com/chiugame/udon-task",
+        "text":"View on GitHub"
+    },
+    "bannerUrl":"banner.png",
+    "githubRepos":[
+        "vrchat-community/clientsim"
+    ],
+    "packages":[
+        {
+            "name":"com.vrchat.udonsharp",
+            "releases":[
+                "https://github.com/vrchat-community/UdonSharp/releases/download/1.1.7/com.vrchat.UdonSharp.zip",
+                "https://github.com/vrchat-community/UdonSharp/releases/download/1.1.6/com.vrchat.UdonSharp-1.1.6.zip"
+            ]
+        }
+    ]
+}
