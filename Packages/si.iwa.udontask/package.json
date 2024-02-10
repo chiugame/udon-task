@@ -1,9 +1,8 @@
 {
-  "name": "si.iwa.udontask",
-  "displayName": "si.iwa.udontask",
+  "name": "si.iwa.si.iwa.udontask",
+  "displayName": "UdonTask",
   "version": "1.0.1",
   "description": "This package enables the execution of Udon from a separate thread.",
-  "dependencies": {},
   "gitDependencies": {},
   "vpmDependencies": {
     "com.vrchat.worlds": "^3.5.x"
