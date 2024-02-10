@@ -221,7 +221,7 @@
         "com.unity.inputsystem": "1.2.0"
       }
     },
-    "si.iwa.si.iwa.udontask": {
+    "si.iwa.udontask": {
       "version": "file:si.iwa.udontask",
       "depth": 0,
       "source": "embedded",
