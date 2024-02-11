@@ -44,7 +44,6 @@ namespace Iwashi.UdonTask
 			_stopwatch.Start();
 			if (isUdonBehaviour) udonBehaviour.SendCustomEvent(taskMethodName);
 			else if (isUdonSharp) udonSharpBehaviour.SendCustomEvent(taskMethodName);
-			udonSharpBehaviour.SendCustomEvent(taskMethodName);
 			_stopwatch.Stop();
 			_isComplete = true;
 		}
