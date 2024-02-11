@@ -75,3 +75,10 @@ public class UdonTaskSample : UdonSharpBehaviour
 - 第1引数にUdonBehaviourかUdonSharpBehaviourを設定できます。thisを使うと自身のUdonSharpBehaviourを指定できます。
 - 第5引数にタイムアウト時間を設定できます。省略すると30秒でタイムアウトします。
 - 戻り値のUdonTaskのResultStatus()で進行状況のEnumを得られます。（NotExecuted、Running、Success、Failed）
+
+## Samples
+UnityのPackageManagerのUdonTask→Samplesからサンプルシーンをインポートできます。
+
+サンプルシーンでは[Base64エンコード](https://gist.githubusercontent.com/chiugame/76a08e9e2cb0735b1c7ff848e335b30f/raw/b956b266e4f0c35b8fde9edb284fe7efc300ba05/SamplePictures.txt)された17枚の画像データを高速で読み込むテストができます。
+
+[テストワールド](https://vrchat.com/home/world/wrld_687f009c-fffb-4532-bb55-c075788a33b1)
