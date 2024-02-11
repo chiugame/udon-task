@@ -37,7 +37,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 
   public void OnSuccess()
   {
-    Debug.LogError("成功！");
+    Debug.Log("成功！");
   }
 }
 ```
