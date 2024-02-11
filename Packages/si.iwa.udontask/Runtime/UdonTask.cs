@@ -1,6 +1,7 @@
 using UdonSharp;
 using UnityEngine;
 using VRC.Udon;
+using VRC.Udon.Common.Interfaces;
 
 namespace Iwashi.UdonTask
 {
@@ -17,21 +18,12 @@ namespace Iwashi.UdonTask
 			return udonAsync;
 		}
 
-		public static UdonTask New(UdonBehaviour udonBehaviour, string taskMethodName, string onCompleteMethodName = "")
+		public static UdonTask New(IUdonEventReceiver udonEventReceiver, string taskMethodName, string onCompleteMethodName = "")
 		{
 			var udonAsync = GetUdonAsync(taskMethodName, onCompleteMethodName);
-			udonAsync.udonBehaviour = udonBehaviour;
+			udonAsync.udonEventReceiver = udonEventReceiver;
 			udonAsync.gameObject.SetActive(true);
-			udonAsync.isUdonBehaviour = true;
-			return (UdonTask)(object)new object[] { udonAsync };
-		}
-
-		public static UdonTask New(UdonSharpBehaviour udonSharpBehaviour, string taskMethodName, string onCompleteMethodName = "")
-		{
-			var udonAsync = GetUdonAsync(taskMethodName, onCompleteMethodName);
-			udonAsync.udonSharpBehaviour = udonSharpBehaviour;
-			udonAsync.gameObject.SetActive(true);
-			udonAsync.isUdonSharp = true;
+			udonAsync.existsUdonEventReceiver = udonEventReceiver != null;
 			return (UdonTask)(object)new object[] { udonAsync };
 		}
 	}
