@@ -9,7 +9,5 @@ namespace Iwashi.UdonTask
 		}
 
 		public static bool IsComplete(this UdonTask self) => self.GetAsync().IsComplete();
-
-		public static ResultType ResultStatus(this UdonTask self) => self.GetAsync().ResultStatus();
 	}
 }
