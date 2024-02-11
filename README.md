@@ -10,7 +10,6 @@ Udonを別スレッドで実行可能にするやつ。
 [Iwashi Packages](https://vpm.iwa.si/)を開いて「Add to VCC」を押してVCCからUdonTaskを追加します。
 
 ## Usage
-### コールバックを使う
 ```csharp
 using UnityEngine;
 using UdonSharp;
@@ -20,7 +19,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 {
   private void Start()
   {
-    UdonTask.New(this, nameof(ExecuteTask), nameof(OnFailed), nameof(OnSuccess));
+    UdonTask.New(this, nameof(ExecuteTask), nameof(OnComplete));
   }
 
   public void ExecuteTask()
@@ -30,51 +29,15 @@ public class UdonTaskSample : UdonSharpBehaviour
      * 触れないものを触った場合UdonによってUnityEngine.Object.ToStringが呼ばれます */
   }
 
-  public void OnFailed()
+  public void OnComplete()
   {
-    Debug.LogError("失敗！");
-  }
-
-  public void OnSuccess()
-  {
-    Debug.Log("成功！");
-  }
-}
-```
-
-### Updateで待つ
-```csharp
-using UnityEngine;
-using UdonSharp;
-using Iwashi.UdonTask;
-
-public class UdonTaskSample : UdonSharpBehaviour
-{
-  private UdonTask _task;
-
-  private void Start()
-  {
-    _task = UdonTask.New(this, nameof(ExecuteTask));
-  }
-
-  private void Update()
-  {
-    if (_task.IsComplete())
-    {
-      // 完了時の処理
-    }
-  }
-
-  public void ExecuteTask()
-  {
-    // ここに重たい処理を書く。
+    Debug.Log("完了！");
   }
 }
 ```
 
 - 第1引数にUdonBehaviourかUdonSharpBehaviourを設定できます。thisを使うと自身のUdonSharpBehaviourを指定できます。
-- 第5引数にタイムアウト時間を設定できます。省略すると30秒でタイムアウトします。
-- 戻り値のUdonTaskのResultStatus()で進行状況のEnumを得られます。（NotExecuted、Running、Success、Failed）
+- 10秒以上かかる処理はUdonが死ぬので実行できません。9.9秒くらいを測って分割するようにしてください。
 
 ## Samples
 UnityのPackageManagerのUdonTask→Samplesからサンプルシーンをインポートできます。
