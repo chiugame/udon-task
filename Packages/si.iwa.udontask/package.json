@@ -1,7 +1,7 @@
 {
   "name": "si.iwa.udontask",
   "displayName": "UdonTask",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This package enables the execution of Udon from a separate thread.",
   "dependencies": {},
   "gitDependencies": {},
@@ -9,7 +9,7 @@
   "vpmDependencies": {
     "com.vrchat.worlds": "^3.5.x"
   },
-  "url": "https://github.com/chiugame/udon-task/releases/download/v1.0.3/si.iwa.udontask-1.0.3.zip",
+  "url": "https://github.com/chiugame/udon-task/releases/download/v1.0.4/si.iwa.udontask-1.0.4.zip",
   "license": "MIT",
   "author": {
     "name": "chiugame",
