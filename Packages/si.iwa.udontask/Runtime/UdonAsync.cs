@@ -9,7 +9,7 @@ namespace Iwashi.UdonTask
 		public UdonBehaviour udonBehaviour;
 		public UdonSharpBehaviour udonSharpBehaviour;
 		public string taskMethodName;
-		public string onSuccessMethodName;
+		public string onCompleteMethodName;
 		public bool isUdonBehaviour;
 		public bool isUdonSharp;
 
@@ -27,19 +27,17 @@ namespace Iwashi.UdonTask
 			_isComplete = true;
 		}
 
-		public bool IsComplete() => _isExecute && _isComplete;
-
 		private void Update()
 		{
-			if (_isComplete) OnSuccess();
+			if (_isComplete) OnComplete();
 		}
 
-		private void OnSuccess()
+		private void OnComplete()
 		{
-			if (!string.IsNullOrEmpty(onSuccessMethodName))
+			if (!string.IsNullOrEmpty(onCompleteMethodName))
 			{
-				if (isUdonBehaviour) udonBehaviour.SendCustomEvent(onSuccessMethodName);
-				else if (isUdonSharp) udonSharpBehaviour.SendCustomEvent(onSuccessMethodName);
+				if (isUdonBehaviour) udonBehaviour.SendCustomEvent(onCompleteMethodName);
+				else if (isUdonSharp) udonSharpBehaviour.SendCustomEvent(onCompleteMethodName);
 			}
 			Destroy(gameObject);
 		}

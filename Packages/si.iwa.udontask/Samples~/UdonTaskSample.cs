@@ -32,7 +32,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 	public override void OnStringLoadSuccess(IVRCStringDownload result)
 	{
 		_downloadText = result.Result;
-		UdonTask.New(this, nameof(OnDownload), nameof(OnSuccess));
+		UdonTask.New(this, nameof(OnDownload), nameof(OnComplete));
 	}
 
 	public void OnDownload()
@@ -59,7 +59,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 		}
 	}
 
-	public void OnSuccess()
+	public void OnComplete()
 	{
 		for (int i = 0; i < _resultBytes.Length; ++i)
 		{
