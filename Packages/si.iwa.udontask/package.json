@@ -5,6 +5,7 @@
   "description": "This package enables the execution of Udon from a separate thread.",
   "dependencies": {},
   "gitDependencies": {},
+  "unity": "2022.3",
   "vpmDependencies": {
     "com.vrchat.worlds": "^3.5.x"
   },
