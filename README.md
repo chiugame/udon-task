@@ -20,7 +20,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 {
   private void Start()
   {
-    UdonTask.New(this, nameof(ExecuteTask), nameof(OnComplete));
+    UdonTask.New((IUdonEventReceiver)this, nameof(ExecuteTask), nameof(OnComplete));
   }
 
   public void ExecuteTask()
