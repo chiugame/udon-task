@@ -13,6 +13,7 @@ Udonを別スレッドで実行可能にするやつ。
 ```csharp
 using UnityEngine;
 using UdonSharp;
+using VRC.Udon.Common.Interfaces;
 using Iwashi.UdonTask;
 
 public class UdonTaskSample : UdonSharpBehaviour
