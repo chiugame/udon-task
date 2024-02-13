@@ -5,7 +5,8 @@
         "VRC.Udon",
         "VRC.SDK3",
         "VRC.SDKBase",
-        "UdonSharp.Runtime"
+        "UdonSharp.Runtime",
+        "VRC.Udon.Serialization.OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

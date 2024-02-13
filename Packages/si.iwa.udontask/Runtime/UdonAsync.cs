@@ -1,6 +1,5 @@
 ﻿using System;
 using UdonSharp;
-using VRC.Udon;
 using VRC.Udon.Common.Interfaces;
 
 namespace Iwashi.UdonTask
@@ -9,9 +8,12 @@ namespace Iwashi.UdonTask
 	public class UdonAsync : UdonSharpBehaviour
 	{
 		[NonSerialized] public IUdonEventReceiver udonEventReceiver;
-		[NonSerialized] public string taskMethodName;
+		[NonSerialized] public string onProcesMethodName;
 		[NonSerialized] public string onCompleteMethodName;
 		[NonSerialized] public bool existsUdonEventReceiver;
+		[NonSerialized] public string onProcessParamName;
+		[NonSerialized] public string onCompleteParamName;
+		[NonSerialized] public UdonTaskContainer container;
 
 		private float[] onAudioFilterReadData;
 		private int onAudioFilterReadChannels;
@@ -22,7 +24,7 @@ namespace Iwashi.UdonTask
 		{
 			if (_isExecute) return;
 			_isExecute = true;
-			if (existsUdonEventReceiver) udonEventReceiver.SendCustomEvent(taskMethodName);
+			if (existsUdonEventReceiver) UdonTask.InvokeTaskEvent(udonEventReceiver, onProcesMethodName, onProcessParamName, container);
 			_isComplete = true;
 		}
 
@@ -33,10 +35,7 @@ namespace Iwashi.UdonTask
 
 		private void OnComplete()
 		{
-			if (!string.IsNullOrEmpty(onCompleteMethodName))
-			{
-				if (existsUdonEventReceiver) udonEventReceiver.SendCustomEvent(onCompleteMethodName);
-			}
+			if (existsUdonEventReceiver) UdonTask.InvokeTaskEvent(udonEventReceiver, onCompleteMethodName, onCompleteParamName, container);
 			Destroy(gameObject);
 		}
 	}

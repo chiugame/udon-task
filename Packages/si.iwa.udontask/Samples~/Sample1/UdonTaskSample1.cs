@@ -9,15 +9,16 @@ using VRC.SDKBase;
 using VRC.Udon.Common.Interfaces;
 
 [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
-public class UdonTaskSample : UdonSharpBehaviour
+public class UdonTaskSample1 : UdonSharpBehaviour
 {
 	[SerializeField] private GameObject _imagePrefab;
 	[SerializeField] private Transform _imageParent;
-	[SerializeField] private VRCUrl _url = new VRCUrl("https://gist.githubusercontent.com/chiugame/76a08e9e2cb0735b1c7ff848e335b30f/raw/b956b266e4f0c35b8fde9edb284fe7efc300ba05/SamplePictures.txt");
+	[SerializeField] private VRCUrl _url = new VRCUrl("https://gist.githubusercontent.com/chiugame/76a08e9e2cb0735b1c7ff848e335b30f/raw/ffa4909cad224885217abeba28a340391c397518/SamplePictures.txt");
 
 	private string _downloadText;
 	private byte[][] _resultBytes;
 	private int[][] _resultSizes;
+	private int _completeIndex = 0;
 
 	public void ExecuteTask()
 	{
@@ -32,10 +33,11 @@ public class UdonTaskSample : UdonSharpBehaviour
 	public override void OnStringLoadSuccess(IVRCStringDownload result)
 	{
 		_downloadText = result.Result;
-		UdonTask.New((IUdonEventReceiver)this, nameof(OnDownload), nameof(OnComplete));
+		_completeIndex = 0;
+		UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete));
 	}
 
-	public void OnDownload()
+	public void OnProcess()
 	{
 		var str = _downloadText;
 		var jsonLen = int.Parse(str.Substring(0, 4));
@@ -61,17 +63,16 @@ public class UdonTaskSample : UdonSharpBehaviour
 
 	public void OnComplete()
 	{
-		for (int i = 0; i < _resultBytes.Length; ++i)
-		{
-			var imageObj = Instantiate(_imagePrefab, _imageParent);
-			imageObj.SetActive(true);
-			var width = _resultSizes[i][0];
-			var height = _resultSizes[i][1];
-			var texture = new Texture2D(width, height, TextureFormat.DXT1Crunched, false);
-			texture.LoadRawTextureData(_resultBytes[i]);
-			texture.Apply();
-			var rawImage = imageObj.GetComponent<RawImage>();
-			rawImage.texture = texture;
-		}
+		var imageObj = Instantiate(_imagePrefab, _imageParent);
+		imageObj.SetActive(true);
+		var width = _resultSizes[_completeIndex][0];
+		var height = _resultSizes[_completeIndex][1];
+		var texture = new Texture2D(width, height, TextureFormat.DXT1Crunched, false);
+		texture.LoadRawTextureData(_resultBytes[_completeIndex]);
+		texture.Apply();
+		var rawImage = imageObj.GetComponent<RawImage>();
+		rawImage.texture = texture;
+		++_completeIndex;
+		if (_completeIndex < _resultBytes.Length) SendCustomEventDelayedFrames(nameof(OnComplete), 1);
 	}
 }
