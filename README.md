@@ -74,12 +74,14 @@ public class UdonTaskSample : UdonSharpBehaviour
 
 - 第1引数にUdonBehaviourかUdonSharpBehaviourを設定できます。(IUdonEventReceiver)thisを使うと自身のUdonSharpBehaviourを指定できます。
 - 10秒以上かかる処理はUdonが死ぬので実行できません。9.9秒くらいを測って分割するようにしてください。
+- 引数付きを利用する場合は関数の引数は必ずそのスクリプト内で一意の名前になるようにしてください。
+  - UdonTask.Newする際に引数の名前を指定する必要があります。
 
 
 ## Samples
 UnityのPackageManagerのUdonTask→Samplesからサンプルシーンをインポートできます。
 
-サンプルシーンでは[Base64エンコード](https://gist.githubusercontent.com/chiugame/76a08e9e2cb0735b1c7ff848e335b30f/raw/b956b266e4f0c35b8fde9edb284fe7efc300ba05/SamplePictures.txt)された17枚の画像データを高速で読み込むテストができます。
+サンプルシーンでは[Base64エンコード](https://gist.githubusercontent.com/chiugame/76a08e9e2cb0735b1c7ff848e335b30f/raw/b956b266e4f0c35b8fde9edb284fe7efc300ba05/SamplePictures.txt)された17枚の画像データを高速で読み込むテスト等ができます。
 
 [テストワールド](https://vrchat.com/home/world/wrld_687f009c-fffb-4532-bb55-c075788a33b1)
 
