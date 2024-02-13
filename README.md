@@ -48,6 +48,8 @@ using Iwashi.UdonTask;
 
 public class UdonTaskSample : UdonSharpBehaviour
 {
+	private UdonTask _task;
+
 	public void ExecuteTask()
 	{
 		_task = UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onCompleteContainer", "イワシ");
