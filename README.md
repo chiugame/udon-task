@@ -53,7 +53,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 		UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onReturnContainer", "イワシ");
 	}
 
-	public void OnProcess(UdonTaskContainer onProcessContainer)
+	public UdonTaskContainer OnProcess(UdonTaskContainer onProcessContainer)
 	{
 		var container = UdonTaskContainer.New();
 		var str = onProcessContainer.GetVariable<string>(0);
