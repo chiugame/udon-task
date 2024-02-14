@@ -39,7 +39,7 @@ namespace Iwashi.UdonTask
 			audioSource.playOnAwake = true;
 			audioSource.loop = true;
 			audioSource.volume = 0;
-			obj.hideFlags = HideFlags.HideAndDontSave;
+			obj.hideFlags = HideFlags.HideInHierarchy;
 		}
 
 		private static void OnLog(string logStr, string stackTrace, LogType type)
