@@ -39,7 +39,7 @@ public class UdonTaskSample : UdonSharpBehaviour
 }
 ```
 
-### 引数付き
+### 戻り値・引数付き
 ```csharp
 using UnityEngine;
 using UdonSharp;
@@ -48,11 +48,9 @@ using Iwashi.UdonTask;
 
 public class UdonTaskSample : UdonSharpBehaviour
 {
-	private UdonTask _task;
-
 	public void ExecuteTask()
 	{
-		_task = UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onCompleteContainer", "イワシ");
+		UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onReturnContainer", "イワシ");
 	}
 
 	public void OnProcess(UdonTaskContainer onProcessContainer)
@@ -61,18 +59,17 @@ public class UdonTaskSample : UdonSharpBehaviour
 		var str = onProcessContainer.GetVariable<string>(0);
 		container = container.AddVariable($"{str}ーモ");
 		Debug.Log(container.GetVariable<string>(container.Count() - 1));
-		_task = _task.SetReturnContainer(container);
+		return container;
 	}
 
-	public void OnComplete(UdonTaskContainer onCompleteContainer)
+	public void OnComplete(UdonTaskContainer onReturnContainer)
 	{
-		var container = _task.GetReturnContainer();
-		Debug.Log(container.GetVariable<string>(0));
+		Debug.Log(onReturnContainer.GetVariable<string>(0));
 	}
 }
 ```
 
-- 第1引数にUdonBehaviourかUdonSharpBehaviourを設定できます。(IUdonEventReceiver)thisを使うと自身のUdonSharpBehaviourを指定できます。
+- 第1引数にIUdonEventReceiverを指定します。(IUdonEventReceiver)thisを使うと自身のUdonSharpBehaviourを設定できます。
 - 10秒以上かかる処理はUdonが死ぬので実行できません。9.9秒くらいを測って分割するようにしてください。
 - 引数付きを利用する場合は関数の引数は必ずそのスクリプト内で一意の名前になるようにしてください。
   - UdonTask.Newする際に引数の名前を指定する必要があります。
@@ -89,6 +86,7 @@ UnityのPackageManagerのUdonTask→Samplesからサンプルシーンをイン�
 ## TIPS
 - 別スレッドからSendCustomEventDelayedSeconds/SendCustomEventDelayedFramesを呼ぶとメインスレッドを呼び出せる。
 - 別スレッドで触ってるフィールドをメインスレッドで触るとタイミング次第でUdonが死ぬ。
+  - そもそもタイミング次第で死ぬ。UdonVMのスタックがずれるっぽい？特定のフィールドが別の型に化けるとか起きる。
 - 別スレッドからでもDebug.Logの出力は可能。
 
 
