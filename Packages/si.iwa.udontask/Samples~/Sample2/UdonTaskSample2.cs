@@ -9,14 +9,12 @@ public class UdonTaskSample2 : UdonSharpBehaviour
 {
 	[SerializeField] private Text _text;
 
-	private UdonTask _task;
-
 	public void ExecuteTask()
 	{
-		_task = UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onCompleteContainer", 1000, 3000);
+		UdonTask.New((IUdonEventReceiver)this, nameof(OnProcess), nameof(OnComplete), "onProcessContainer", "onReturnContainer", 1000, 3000);
 	}
 
-	public void OnProcess(UdonTaskContainer onProcessContainer)
+	public UdonTaskContainer OnProcess(UdonTaskContainer onProcessContainer)
 	{
 		var container = UdonTaskContainer.New();
 		var min = onProcessContainer.GetVariable<int>(0);
@@ -38,17 +36,16 @@ public class UdonTaskSample2 : UdonSharpBehaviour
 		}
 		container = container.AddVariable($"Len={len}, Count={count}");
 		Debug.Log(container.GetVariable<string>(container.Count() - 1));
-		_task = _task.SetReturnContainer(container);
+		return container;
 	}
 
-	public void OnComplete(UdonTaskContainer onCompleteContainer)
+	public void OnComplete(UdonTaskContainer onReturnContainer)
 	{
 		Debug.Log("完了！");
-		var container = _task.GetReturnContainer();
 		var str = "";
-		for (int i = 0; i < container.Count(); ++i)
+		for (int i = 0; i < onReturnContainer.Count(); ++i)
 		{
-			str += $"{container.GetVariable<string>(i)}\r\n";
+			str += $"{onReturnContainer.GetVariable<string>(i)}\r\n";
 		}
 		_text.text = str;
 	}

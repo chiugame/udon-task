@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using UdonSharp;
+using VRC.Udon;
 using VRC.Udon.Common.Interfaces;
 
 namespace Iwashi.UdonTask
@@ -12,30 +13,30 @@ namespace Iwashi.UdonTask
 		[NonSerialized] public string onCompleteMethodName;
 		[NonSerialized] public bool existsUdonEventReceiver;
 		[NonSerialized] public string onProcessParamName;
-		[NonSerialized] public string onCompleteParamName;
+		[NonSerialized] public string onReturnParamName;
 		[NonSerialized] public UdonTaskContainer container;
 
-		private float[] onAudioFilterReadData;
-		private int onAudioFilterReadChannels;
 		private bool _isExecute = false;
-		private bool _isComplete = false;
-		public void _onAudioFilterRead() => OnAudioFilterRead(onAudioFilterReadData, onAudioFilterReadChannels);
+		private UdonBehaviour _udonBehaviour;
+		private UdonTaskContainer _returnContainer;
+
+		public void _onAudioFilterRead() => OnAudioFilterRead(null, 0);
 		private void OnAudioFilterRead(float[] data, int channels)
 		{
 			if (_isExecute) return;
 			_isExecute = true;
-			if (existsUdonEventReceiver) UdonTask.InvokeTaskEvent(udonEventReceiver, onProcesMethodName, onProcessParamName, container);
-			_isComplete = true;
+			_udonBehaviour = (UdonBehaviour)udonEventReceiver;
+			if (existsUdonEventReceiver)
+			{
+				UdonTask.InvokeTaskEvent(_udonBehaviour, onProcesMethodName, onProcessParamName, container);
+				_returnContainer = (UdonTaskContainer)_udonBehaviour.GetProgramVariable($"__0___0_{onProcesMethodName}__ret");
+				SendCustomEventDelayedFrames(nameof(OnComplete), 0);
+			}
 		}
 
-		private void Update()
+		public void OnComplete()
 		{
-			if (_isComplete) OnComplete();
-		}
-
-		private void OnComplete()
-		{
-			if (existsUdonEventReceiver) UdonTask.InvokeTaskEvent(udonEventReceiver, onCompleteMethodName, onCompleteParamName, container);
+			if (existsUdonEventReceiver) UdonTask.InvokeTaskEvent(_udonBehaviour, onCompleteMethodName, onReturnParamName, _returnContainer);
 			Destroy(gameObject);
 		}
 	}

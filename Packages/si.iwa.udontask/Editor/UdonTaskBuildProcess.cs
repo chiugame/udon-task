@@ -1,5 +1,4 @@
 using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
@@ -19,18 +18,18 @@ namespace Iwashi.UdonTask
 
 		public void OnProcessScene(Scene scene, BuildReport report)
 		{
-			/* •ÊƒXƒŒƒbƒh“à‚ÅƒGƒ‰[‚ªo‚½Û‚ÉUdon‚ªo—Í‚·‚éƒƒO‚ª
-			 * UnityEngine.Object.ToString()‚ğŒÄ‚ñ‚Å‚µ‚Ü‚¢ƒGƒ‰[‰ÓŠ‚ª•ª‚©‚ç‚È‚­‚È‚é–‚Ö‚Ì‘ÎˆB
-			 * Harmony‚ğ—p‚¢‚ÄVRC.Core.Logger.LogError()‚ğ‘‚«Š·‚¦B */
+			/* åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰å†…ã§ã‚¨ãƒ©ãƒ¼ãŒå‡ºãŸéš›ã«UdonãŒå‡ºåŠ›ã™ã‚‹ãƒ­ã‚°ãŒ
+			 * UnityEngine.Object.ToString()ã‚’å‘¼ã‚“ã§ã—ã¾ã„ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ãŒåˆ†ã‹ã‚‰ãªããªã‚‹äº‹ã¸ã®å¯¾å‡¦ã€‚
+			 * Harmonyã‚’ç”¨ã„ã¦VRC.Core.Logger.LogError()ã‚’æ›¸ãæ›ãˆã€‚ */
 			var harmony = new Harmony("si.iwa.udontask");
 			harmony.PatchAll();
 			mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
-			// •ÊƒXƒŒƒbƒh‚Å‚àUdonSharp‚ÌƒGƒ‰[ƒƒO‚ğo—Í
+			// åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã§ã‚‚UdonSharpã®ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å‡ºåŠ›
 			Application.logMessageReceivedThreaded -= OnLog;
 			Application.logMessageReceivedThreaded += OnLog;
 
-			// UdonAsync‚ÌƒZƒbƒgƒAƒbƒv
+			// UdonAsyncã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
 			var obj = new GameObject("0C74D46CC893548DFFAF93B6D0C59BCDC2909B0F2438E978F6B5ED10E05F290B");
 			var prefabObj = new GameObject("Prefab");
 			prefabObj.SetActive(false);

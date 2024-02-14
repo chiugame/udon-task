@@ -3,7 +3,7 @@ using System;
 public static class UdonTaskRandomExt
 {
     /// <summary>
-    /// �����_���Ȑ����l��Ԃ��܂��BUdonTaskRandom�^�ŕԂ��Ă���̂�GetValue()���鎖�Œl�����o���܂��B
+    /// ランダムな整数値を返します。UdonTaskRandom型で返ってくるのでGetValue()する事で値を取り出せます。
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
@@ -25,25 +25,25 @@ public static class UdonTaskRandomExt
     private static uint[] GetState(this UdonTaskRandom self) => (uint[])((object[])(object)self)[2];
 
     /// <summary>
-    /// �����_���Ȏ��R����Ԃ��܂��B���O��Next()������̂�Y��Ȃ��ł��������B
+    /// ランダムな自然数を返します。事前にNext()をするのを忘れないでください。
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
     public static uint GetValue(this UdonTaskRandom self) => (uint)((object[])(object)self)[1];
 
     /// <summary>
-    /// 0�`1�͈̔͂̃����_����Float�^�̐��l��Ԃ��܂��B���O��Next()������̂�Y��Ȃ��ł��������B
+    /// 0～1の範囲のランダムなFloat型の数値を返します。事前にNext()をするのを忘れないでください。
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
     public static float GetFloatValue(this UdonTaskRandom self) => (self.GetValue() & 0x7FFFFFu) / 8388607f;
 
     /// <summary>
-    /// �w�肵���͈͂̃����_���Ȑ�����Ԃ��܂��B���O��Next()������̂�Y��Ȃ��ł��������B
+    /// 指定した範囲のランダムな整数を返します。事前にNext()をするのを忘れないでください。
     /// </summary>
     /// <param name="self"></param>
-    /// <param name="min">�͈͂̉������w��B</param>
-    /// <param name="max">�͈͂̏�����w��B</param>
+    /// <param name="min">範囲の下限を指定。</param>
+    /// <param name="max">範囲の上限を指定。</param>
     /// <returns></returns>
     public static int Range(this UdonTaskRandom self, int min, int max)
     {
@@ -54,7 +54,7 @@ public static class UdonTaskRandomExt
     }
 
     /// <summary>
-    /// �w�肵���͈͂̃����_����Float�^�̐��l��Ԃ��܂��B���O��Next()������̂�Y��Ȃ��ł��������B
+    /// 指定した範囲のランダムなFloat型の数値を返します。事前にNext()をするのを忘れないでください。
     /// </summary>
     /// <param name="self"></param>
     /// <param name="min"></param>

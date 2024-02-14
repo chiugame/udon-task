@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UdonSharp;
 using UnityEngine;
 using VRC.Udon;
@@ -8,7 +9,7 @@ namespace Iwashi.UdonTask
 	[AddComponentMenu("")]
 	public class UdonTask : UdonSharpBehaviour
 	{
-		private static UdonAsync GetUdonAsync(string onProcesMethodName, string onCompleteMethodName = "", string onProcessParamName = "", string onCompleteParamName = "")
+		private static UdonAsync GetUdonAsync(string onProcesMethodName, string onCompleteMethodName = "", string onProcessParamName = "", string onReturnParamName = "")
 		{
 			var udonAsyncObj = GameObject.Find("/0C74D46CC893548DFFAF93B6D0C59BCDC2909B0F2438E978F6B5ED10E05F290B");
 			var obj = Instantiate(udonAsyncObj.transform.Find("Prefab").gameObject);
@@ -16,43 +17,52 @@ namespace Iwashi.UdonTask
 			udonAsync.onProcesMethodName = onProcesMethodName;
 			udonAsync.onCompleteMethodName = onCompleteMethodName;
 			udonAsync.onProcessParamName = onProcessParamName;
-			udonAsync.onCompleteParamName = onCompleteParamName;
+			udonAsync.onReturnParamName = onReturnParamName;
 			return udonAsync;
 		}
 
-		/// <summary>
-		/// ”ñ“¯Šúˆ—‚ğÀs‚µ‚Ü‚·B
-		/// </summary>
-		/// <param name="udonEventReceiver">ƒR[ƒ‹ƒoƒbƒN‚ğÀs‚·‚éUdon‚ğw’è‚µ‚Ü‚·B</param>
-		/// <param name="onProcesMethodName">”ñ“¯Šúˆ—‚ğÀs‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”–¼‚ğ“ü‚ê‚Ü‚·B</param>
-		/// <param name="onCompleteMethodName">Š®—¹‚ÉÀs‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”–¼‚ğ“ü‚ê‚Ü‚·B</param>
-		/// <param name="onProcessParamName">”CˆÓB”ñ“¯Šúˆ—‚ÌŠÖ”‚Ìˆø”–¼B•K‚¸ƒXƒNƒŠƒvƒg‘S‘Ì‚ÅˆêˆÓ‚Æ‚È‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢BUdonTaskContainerŒ^‚ğó‚¯æ‚ê‚Ü‚·B</param>
-		/// <param name="onCompleteParamName">”CˆÓBŠ®—¹‚ÉÀs‚·‚éŠÖ”‚Ìˆø”–¼B•K‚¸ƒXƒNƒŠƒvƒg‘S‘Ì‚ÅˆêˆÓ‚Æ‚È‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢BUdonTaskContainerŒ^‚ğó‚¯æ‚ê‚Ü‚·B</param>
-		/// <param name="param">”CˆÓB‚±‚±‚ÉƒR[ƒ‹ƒoƒbƒN‚Åg—p‚µ‚½‚¢ˆø”‚ğ“n‚¹‚Ü‚·BUdonTaskContainerŒ^‚Æ‚µ‚Äó‚¯æ‚ê‚Ü‚·B</param>
-		/// <returns>Às’†‚Ìƒ^ƒXƒN‚Ìî•ñ‚ª•Ô‚Á‚Ä‚«‚Ü‚·B</returns>
-		public static UdonTask New(IUdonEventReceiver udonEventReceiver, string onProcesMethodName, string onCompleteMethodName = "", string onProcessParamName = "", string onCompleteParamName = "", params object[] param)
+		public static void InvokeTaskEvent(UdonBehaviour udonBehaviour, string methodName, string paramName, UdonTaskContainer container)
 		{
-			var udonAsync = GetUdonAsync(onProcesMethodName, onCompleteMethodName, onProcessParamName, onCompleteParamName);
+			if (string.IsNullOrEmpty(methodName)) return;
+			if (string.IsNullOrEmpty(paramName)) udonBehaviour.SendCustomEvent(methodName);
+			else
+			{
+				udonBehaviour.SetProgramVariable($"__0_{paramName}__param", container);
+				udonBehaviour.SendCustomEvent($"__0_{methodName}");
+			}
+		}
+
+		/// <summary>
+		/// éåŒæœŸå‡¦ç†ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+		/// </summary>
+		/// <param name="udonEventReceiver">ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å®Ÿè¡Œã™ã‚‹Udonã‚’æŒ‡å®šã—ã¾ã™ã€‚</param>
+		/// <param name="onProcesMethodName">éåŒæœŸå‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°åã‚’å…¥ã‚Œã¾ã™ã€‚</param>
+		/// <param name="onCompleteMethodName">å®Œäº†æ™‚ã«å®Ÿè¡Œã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°åã‚’å…¥ã‚Œã¾ã™ã€‚</param>
+		/// <param name="onProcessParamName">ä»»æ„ã€‚éåŒæœŸå‡¦ç†ã®é–¢æ•°ã®å¼•æ•°åã€‚å¿…ãšã‚¹ã‚¯ãƒªãƒ—ãƒˆå…¨ä½“ã§ä¸€æ„ã¨ãªã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚UdonTaskContainerå‹ã‚’å—ã‘å–ã‚Œã¾ã™ã€‚</param>
+		/// <param name="onReturnParamName">ä»»æ„ã€‚å®Œäº†æ™‚ã«å®Ÿè¡Œã™ã‚‹é–¢æ•°ã®å¼•æ•°åã€‚OnProcessã®æˆ»ã‚Šå€¤ã‚’å¾—ã‚‰ã‚Œã¾ã™ã€‚å¿…ãšã‚¹ã‚¯ãƒªãƒ—ãƒˆå…¨ä½“ã§ä¸€æ„ã¨ãªã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚UdonTaskContainerå‹ã‚’å—ã‘å–ã‚Œã¾ã™ã€‚</param>
+		/// <param name="param">ä»»æ„ã€‚ã“ã“ã«ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã§ä½¿ç”¨ã—ãŸã„å¼•æ•°ã‚’æ¸¡ã›ã¾ã™ã€‚UdonTaskContainerå‹ã¨ã—ã¦å—ã‘å–ã‚Œã¾ã™ã€‚</param>
+		/// <returns>å®Ÿè¡Œä¸­ã®ã‚¿ã‚¹ã‚¯ã®æƒ…å ±ãŒè¿”ã£ã¦ãã¾ã™ã€‚</returns>
+		public static UdonTask New(IUdonEventReceiver udonEventReceiver, string onProcesMethodName, string onCompleteMethodName = "", string onProcessParamName = "", string onReturnParamName = "", params object[] param)
+		{
+			var udonAsync = GetUdonAsync(onProcesMethodName, onCompleteMethodName, onProcessParamName, onReturnParamName);
 			udonAsync.udonEventReceiver = udonEventReceiver;
 			udonAsync.gameObject.SetActive(true);
 			udonAsync.existsUdonEventReceiver = udonEventReceiver != null;
 			var paramContainer = UdonTaskContainer.New(param);
-			var returnContainer = UdonTaskContainer.New();
 			udonAsync.container = paramContainer;
-			return (UdonTask)(object)new object[] { udonAsync, paramContainer, returnContainer }; // UdonAsyncAˆø”ƒRƒ“ƒeƒiA–ß‚è’lƒRƒ“ƒeƒi
+			return (UdonTask)(object)new object[] { udonAsync, paramContainer }; // UdonAsyncã€å¼•æ•°ã‚³ãƒ³ãƒ†ãƒŠ
 		}
 
-		public static void InvokeTaskEvent(IUdonEventReceiver udonEventReceiver, string methodName, string paramName, UdonTaskContainer container)
+		/// <summary>
+		/// æŒ‡å®šç§’æ•°å¾…ã¡ã¾ã™ã€‚
+		/// </summary>
+		/// <param name="seconds"></param>
+		public static void Delay(float seconds)
 		{
-			if (!string.IsNullOrEmpty(methodName))
-			{
-				if (((object[])(object)container).Length > 0 && !string.IsNullOrEmpty(paramName))
-				{
-					((UdonBehaviour)udonEventReceiver).SetProgramVariable($"__0_{paramName}__param", container);
-					udonEventReceiver.SendCustomEvent($"__0_{methodName}");
-				}
-				else udonEventReceiver.SendCustomEvent(methodName);
-			}
+			var sw = new Stopwatch();
+			sw.Start();
+			while (sw.Elapsed.TotalSeconds < seconds) { }
+			sw.Stop();
 		}
 	}
 }
